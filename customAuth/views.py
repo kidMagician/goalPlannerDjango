@@ -21,11 +21,11 @@ class signup(APIView):
             DUPLICATION_USERNAME_EMIL=6;
             """
             if user.validate_email_isdouble() and user.validate_username_isdoublce():
-                return  Response({'result':'6'},status = status.HTTP_201_CREATED)
+                return  Response({'result':'6'},status = status.HTTP_200_OK)
             elif user.validate_email_isdouble():
-                return Response({'result': '4'}, status=status.HTTP_201_CREATED)
+                return Response({'result': '4'}, status=status.HTTP_200_CREATED)
             elif user.validate_username_isdoublce():
-                return Response({'result':'2'},status = status.HTTP_201_CREATED)
+                return Response({'result':'2'},status = status.HTTP_200_CREATED)
 
             user.save()
 

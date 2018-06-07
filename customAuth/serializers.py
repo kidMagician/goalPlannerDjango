@@ -14,16 +14,18 @@ class signupSerializer(serializers.Serializer):
 
     def validate_email_isdouble(self):
 
-        if models.User.objects.get(email=self.validated_data['email']):
+        try:
+            models.User.objects.get(email=self.validated_data['email'])
             return True
-        else:
+        except:
             return False
 
     def validate_username_isdoublce(self):
 
-        if models.User.objects.get(username=self.validated_data['username']):
+        try:
+            models.User.objects.get(username=self.validated_data['username'])
             return True
-        else:
+        except:
             return False
 
 

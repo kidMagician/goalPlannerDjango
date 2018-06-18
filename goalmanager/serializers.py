@@ -9,6 +9,7 @@ class GoalSerializer(serializers.Serializer):
     enddate=serializers.IntegerField()
     totaltime =serializers.IntegerField()
 
+
     def create(self, validated_data):
 
         return Goal.objects.create(**validated_data)
@@ -16,7 +17,7 @@ class GoalSerializer(serializers.Serializer):
     def isDuplicateGoal(self):
         try:
 
-            Goal.objects.get(name=self.validated_data['name'])
+            self.validated_data['user'].goals.get(name=self.validated_data['name'])
 
             return True
 

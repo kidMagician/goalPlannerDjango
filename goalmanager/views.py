@@ -5,15 +5,22 @@ from .models import *
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view,authentication_classes
+from django.views.decorators.csrf import csrf_exempt
 
 
 class createGoal(APIView):
+
+    authentication_classes = (TokenAuthentication,)
+
     def post(self,request):
 
         goalS = GoalSerializer(data=request.data)
 
         if goalS.is_valid():
+
+            goalS.validated_data['user'] = request.user
 
             if goalS.isDuplicateGoal():
 
@@ -27,16 +34,21 @@ class createGoal(APIView):
 
 
 class getallGoal(APIView):
+
+    authentication_classes = (TokenAuthentication,)
+
     def get(self,request):
 
-        goals =Goal.objects.all()
+        goals =request.user.goals
 
         serializers = GoalSerializer(goals,many=True)
 
         return Response({'results':serializers.data},status=status.HTTP_200_OK)
 
 
+
 class createTask(APIView):
+
 
     def post(self,request):
 

@@ -3,7 +3,6 @@ from .views import *
 
 urlpatterns = [
 
-    path(r'creategoal',createGoal.as_view(),name="creategoal"),
-    path(r'getallgoals',getallGoal.as_view(),name="getallgoal"),
-    path(r'createtask',createTask.as_view(),name="createtask")
+    path(r'goal',goal.as_view(),name="goal"),
+    path(r'task',task.as_view(),name="createtask"),
 ]

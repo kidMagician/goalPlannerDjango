@@ -10,9 +10,17 @@ from rest_framework.decorators import api_view,authentication_classes
 from django.views.decorators.csrf import csrf_exempt
 
 
-class createGoal(APIView):
+class goal(APIView):
 
     authentication_classes = (TokenAuthentication,)
+
+    def get(self,request):
+
+        goals =request.user.goals
+
+        serializers = GoalSerializer(goals,many=True)
+
+        return Response({'results':serializers.data},status=status.HTTP_200_OK)
 
     def post(self,request):
 
@@ -32,23 +40,22 @@ class createGoal(APIView):
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self,request):
 
-class getallGoal(APIView):
+        goalS = GoalSerializer(data=request.data)
 
-    authentication_classes = (TokenAuthentication,)
+        if goalS.is_valid():
 
-    def get(self,request):
+            goalS.delete()
 
-        goals =request.user.goals
+        pass
 
-        serializers = GoalSerializer(goals,many=True)
-
-        return Response({'results':serializers.data},status=status.HTTP_200_OK)
-
+    def put(self,requst):
 
 
-class createTask(APIView):
+        pass
 
+class task(APIView):
 
     def post(self,request):
 
@@ -61,6 +68,10 @@ class createTask(APIView):
             return Response({'result_code': '1'}, status=status.HTTP_201_CREATED)
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 
 
 # Create your views here.

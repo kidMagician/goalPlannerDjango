@@ -9,7 +9,6 @@ class GoalSerializer(serializers.Serializer):
     enddate=serializers.IntegerField()
     totaltime =serializers.IntegerField()
 
-
     def create(self, validated_data):
 
         return Goal.objects.create(**validated_data)
@@ -25,6 +24,20 @@ class GoalSerializer(serializers.Serializer):
 
             return False
 
+    def delete(self):
+
+        self.validated_data['user'].goals.get(name=self.validated_data['name']).delete()
+
+        pass
+
+    def update(self, instance, validated_data):
+
+        instance.name = validated_data.get('name',instance.name)
+        instance.enddate = validated_data.get('enddate',instance.enddate)
+        instance.reason = validated_data.get('reason',instance.reason)
+
+        return instance
+
 class TaskSerializer(serializers.Serializer):
 
     goalname = serializers.CharField()
@@ -39,3 +52,7 @@ class TaskSerializer(serializers.Serializer):
 
 
         return Task.objects.create(**validated_data,goal=goal)
+
+    def delete(self):
+
+        Task.delete()
